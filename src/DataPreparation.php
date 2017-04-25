@@ -23,9 +23,9 @@ trait DataPreparation
         }
 
         $dataArray = [
-            [ 'name'  => 'Визиты', 'data' => $itemArray['visits'] ],
-            [ 'name'  => 'Просмотры', 'data' => $itemArray['pageviews'] ],
-            [ 'name'  => 'Посетители', 'data' => $itemArray['users'] ]
+            [ 'label'  => 'Визиты', 'data' => $itemArray['visits'], 'borderColor'=>'rgb(0, 153, 51)', 'fill'=> false],
+            [ 'label'  => 'Просмотры', 'data' => $itemArray['pageviews'], 'borderColor'=>'rgb(51, 102, 255)', 'fill'=> false],
+            [ 'label'  => 'Посетители', 'data' => $itemArray['users'], 'borderColor'=>'#ff0000', 'fill'=> false]
         ];
 
         $this->adaptData = [
@@ -46,14 +46,22 @@ trait DataPreparation
         //Формируем массив
         foreach($this->data['data'] as $item)
         {
-            $dataArray[] = [
-                'url'       => $item['dimensions'][0]['name'],
-                'title'     => $item['dimensions'][1]['name'],
-                'pageviews' => $item['metrics'][0]
-            ];
+            $dataArray[] = $item['metrics'][0];
+                //'url'       => $item['dimensions'][0]['name'],
+                //'title'     => $item['dimensions'][1]['name'],
+
+
+            $labelArray[] = $item['dimensions'][0]['name'];
+
+                //'title'     => $item['dimensions'][1]['name'],
+                //'pageviews' => $item['metrics'][0]
+           // ];
         }
 
-        $this->adaptData = $dataArray;
+        $this->adaptData = [
+            'dataArray' =>json_encode( $dataArray, JSON_UNESCAPED_UNICODE),
+            'labelArray' => json_encode( $labelArray, JSON_UNESCAPED_UNICODE),
+        ];
     }
 
 
@@ -166,18 +174,23 @@ trait DataPreparation
         //Формируем массив
         foreach($this->data['data'] as $item)
         {
-            $dataArray['data'][] = [
-                'searchEngine' => $item['dimensions'][0]['name'],
-                'users'        => $item['metrics'][0]              //Юзеры
-            ];
+            $dataArray[] = $item['metrics'][0];
+              //  'searchEngine' => $item['dimensions'][0]['name'],
+              //  'users'        => $item['metrics'][0]              //Юзеры
+           // ];
+
+            $labelArray[] = $item['dimensions'][0]['name'];
         }
 
         //Итого
-        $dataArray['totals'] = [
-            'users'    => $this->data['totals'][0]
-        ];
+       // $dataArray['totals'] = [
+      //      'users'    => $this->data['totals'][0]
+       // ];
 
-        $this->adaptData = $dataArray;
+        $this->adaptData = [
+            'dataArray' =>json_encode( $dataArray, JSON_UNESCAPED_UNICODE),
+            'labelArray' => json_encode( $labelArray, JSON_UNESCAPED_UNICODE),
+        ];
     }
 
 
