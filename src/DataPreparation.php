@@ -22,14 +22,15 @@ trait DataPreparation
             $itemArray['users'][] = $item['metrics'][2];
         }
 
-        $dataArray = [
-            [ 'label'  => 'Визиты', 'data' => $itemArray['visits'], 'borderColor'=>'rgb(0, 153, 51)', 'fill'=> false],
-            [ 'label'  => 'Просмотры', 'data' => $itemArray['pageviews'], 'borderColor'=>'rgb(51, 102, 255)', 'fill'=> false],
-            [ 'label'  => 'Посетители', 'data' => $itemArray['users'], 'borderColor'=>'#ff0000', 'fill'=> false]
-        ];
+        $dataVisitArray =  $itemArray['visits'];
+        $dataViewArray = $itemArray['pageviews'];
+        $dataUserArray = $itemArray['users'];
 
         $this->adaptData = [
-            'dataArray' => json_encode( $dataArray, JSON_UNESCAPED_UNICODE),
+
+            'dataVisitArray' => json_encode( $dataVisitArray, JSON_UNESCAPED_UNICODE),
+            'dataViewArray' => json_encode( $dataViewArray, JSON_UNESCAPED_UNICODE),
+            'dataUserArray' => json_encode( $dataUserArray, JSON_UNESCAPED_UNICODE),
             'dateArray' => json_encode( $itemArray['date'], JSON_UNESCAPED_UNICODE)
         ];
     }
@@ -47,15 +48,9 @@ trait DataPreparation
         foreach($this->data['data'] as $item)
         {
             $dataArray[] = $item['metrics'][0];
-                //'url'       => $item['dimensions'][0]['name'],
-                //'title'     => $item['dimensions'][1]['name'],
-
 
             $labelArray[] = $item['dimensions'][0]['name'];
 
-                //'title'     => $item['dimensions'][1]['name'],
-                //'pageviews' => $item['metrics'][0]
-           // ];
         }
 
         $this->adaptData = [
@@ -175,10 +170,7 @@ trait DataPreparation
         foreach($this->data['data'] as $item)
         {
             $dataArray[] = $item['metrics'][0];
-              //  'searchEngine' => $item['dimensions'][0]['name'],
-              //  'users'        => $item['metrics'][0]              //Юзеры
-           // ];
-
+            
             $labelArray[] = $item['dimensions'][0]['name'];
         }
 
